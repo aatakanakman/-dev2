@@ -1,35 +1,59 @@
 
+var items = ["3 Litre Su İç","Ödevleri Yap","En Az 3 Saat Kodlama Yap","Yemek Yap","50 Sayfa Kitap Oku"];
 
-
-const addBtn = document.querySelector("#addBtn");
-const input = document.querySelector("#task");
-const toDoList = document.querySelector(".list-group");
-const deleteBtn = document.querySelector("#deleteBtn");
+var list = document.querySelector("#myList");
 
 
 
+items.forEach(function(todo){
 
+    createItem(todo);
 
-addBtn.addEventListener('click',addFunction);
-deleteBtn.addEventListener('click',deleteFunction);
+})
 
-function deleteFunction(){
+list.addEventListener('click',function(item){
+
+    //Tıkladığımız elemen li nesnesi ise diyoruz.Toggle olayı ise varsa yok eder yoksa oluşturur.
+    if(item.target.tagName = 'li'){
+        item.target.classList.toggle('checked');
+    }
+})
+
+document.querySelector('#btnCreate').onclick = function(){
+
+    var input = document.querySelector('#txtItem').value;
     
+    if(input == ''){
+        alert('Lütfen bir değer giriniz.');
+        return;
+    }
+
+    createItem(input);
     
+
+};
+
+function createItem(todo){
+   
+    var li = document.createElement('li');
+    var t= document.createTextNode(todo);
+
+    li.className = 'list-group-item';
+    li.appendChild(t);
     
+    list.appendChild(li);
+
+    var span = document.createElement('span');
+    var text = document.createTextNode('\u00d7');
+    span.className = 'close';
+    span.appendChild(text)
+    li.appendChild(span);
+
+    span.onclick = function() {
+        var li = this.parentElement;
+        li.style.display = 'none';
+    }
 }
 
 
-function addFunction(){
-    let Newinput = input.value;
 
-    console.log(Newinput);
-    let li = `
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-    ${Newinput}
-    <button id="deleteBtn" class="btn"><i class="fa fa-close"></i></button>
-    </li>
-    `
-
-    toDoList.innerHTML += li;
-}
